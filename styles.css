@@ -21,6 +21,26 @@ body {
   color: white;
 }
 
+.logo {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+  margin-bottom: 20px;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
 #intro-page h1 {
   font-size: 3rem;
   margin: 0;
@@ -47,18 +67,6 @@ body {
   animation: pulse 1.5s infinite;
 }
 
-@keyframes pulse {
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.1);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-
 /* Main Page */
 #main-page {
   display: none;
@@ -69,6 +77,13 @@ header {
   color: white;
   padding: 20px;
   text-align: center;
+}
+
+.logo-small {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-bottom: 10px;
 }
 
 header h1 {
@@ -208,6 +223,11 @@ footer a:hover {
 
   #intro-page p {
     font-size: 1rem;
+  }
+
+  .logo {
+    width: 100px;
+    height: 100px;
   }
 
   header h1 {
