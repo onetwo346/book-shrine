@@ -47,7 +47,6 @@ function displayBooks(books) {
         <p>${book.description}</p>
         <a href="${book.filePath}" target="_blank">Read Online</a>
         <a href="${book.filePath}" download>Download</a>
-        <button onclick="readAloud('${book.title} by ${book.author}. ${book.description}')">Read Aloud</button>
       </div>
     `
     )
@@ -63,12 +62,6 @@ function searchBooks() {
       book.author.toLowerCase().includes(query)
   );
   displayBooks(filteredBooks);
-}
-
-// Text-to-Speech
-function readAloud(text) {
-  const utterance = new SpeechSynthesisUtterance(text);
-  window.speechSynthesis.speak(utterance);
 }
 
 // Chatbot toggle
