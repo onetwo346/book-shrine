@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book Shrine</title>
+  <link rel="stylesheet" href="styles.css">
+  <!-- Design by Kofi Fosu | cosmoscoderr@gmail.com -->
+</head>
+<body>
+  <!-- Introduction Page -->
+  <div id="intro-page">
+    <h1>Welcome to <span class="highlight">Book Shrine</span></h1>
+    <p>Your digital library for exploring, reading, and downloading books. Dive into a world of knowledge with our vast collection of PDF books, AI-powered chatbot, and text-to-speech features.</p>
+    <button id="start-button">Tap to Begin</button>
+  </div>
+
+  <!-- Main Page (Hidden Initially) -->
+  <div id="main-page" class="hidden">
+    <header>
+      <h1>Book Shrine</h1>
+      <input type="text" id="search" placeholder="Search books..." oninput="searchBooks()">
+    </header>
+
+    <main>
+      <div class="book-list">
+        <!-- Book items will be dynamically added here -->
+      </div>
+    </main>
+
+    <!-- Chatbot Section -->
+    <div class="chatbot">
+      <button id="chatbot-button">Chat with AI</button>
+      <div id="chatbot-window" class="hidden">
+        <div id="chatbot-messages"></div>
+        <input type="text" id="chatbot-input" placeholder="Ask me something...">
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
