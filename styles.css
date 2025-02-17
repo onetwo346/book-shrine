@@ -175,6 +175,11 @@ footer a:hover {
   margin-bottom: 10px;
 }
 
+.chatbot-input-container {
+  display: flex;
+  gap: 10px;
+}
+
 #chatbot-input {
   width: 100%;
   padding: 10px;
@@ -182,6 +187,40 @@ footer a:hover {
   border-radius: 5px;
 }
 
+#send-button {
+  background-color: #6200ea;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
 .hidden {
   display: none;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  #intro-page h1 {
+    font-size: 2rem;
+  }
+
+  #intro-page p {
+    font-size: 1rem;
+  }
+
+  header h1 {
+    font-size: 2rem;
+  }
+
+  .book-item {
+    width: 100%;
+    max-width: 300px;
+  }
+
+  #chatbot-window {
+    width: 90%;
+    right: 5%;
+  }
 }
