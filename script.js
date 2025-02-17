@@ -29,6 +29,9 @@ const bookList = document.querySelector(".book-list");
 const searchInput = document.getElementById("search");
 const chatbotButton = document.getElementById("chatbot-button");
 const chatbotWindow = document.getElementById("chatbot-window");
+const chatbotInput = document.getElementById("chatbot-input");
+const sendButton = document.getElementById("send-button");
+const chatbotMessages = document.getElementById("chatbot-messages");
 
 // Show main page and hide intro page
 startButton.addEventListener("click", () => {
@@ -62,6 +65,27 @@ function searchBooks() {
       book.author.toLowerCase().includes(query)
   );
   displayBooks(filteredBooks);
+}
+
+// Chatbot functionality
+sendButton.addEventListener("click", () => {
+  const userMessage = chatbotInput.value.trim();
+  if (userMessage) {
+    addMessage(userMessage, "user");
+    chatbotInput.value = "";
+    // Simulate AI response (replace with actual API call)
+    setTimeout(() => {
+      addMessage("This is a simulated response from the AI.", "bot");
+    }, 1000);
+  }
+});
+
+function addMessage(text, sender) {
+  const messageElement = document.createElement("div");
+  messageElement.classList.add("message", sender);
+  messageElement.textContent = text;
+  chatbotMessages.appendChild(messageElement);
+  chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
 }
 
 // Chatbot toggle
