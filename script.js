@@ -20,6 +20,12 @@ const books = [
     description: "A story of racial injustice in the American South.",
     filePath: "books/to-kill-a-mockingbird.pdf",
   },
+  {
+    title: "To Kill a mifbird",
+    author: "Harper Lee",
+    description: "A story of racial injustice in the American South.",
+    filePath: "books/to-kill-a-mockingbird.pdf",
+  },
 ];
 
 const introPage = document.getElementById("intro-page");
