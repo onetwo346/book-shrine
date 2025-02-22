@@ -55,7 +55,6 @@ function displayBooks(books) {
         <p>${book.author}</p>
         <p>${book.description}</p>
         <a href="${book.filePath}" target="_blank">Read Online</a>
-        <a href="${book.filePath}" download>Download</a>
       </div>
     `
     )
