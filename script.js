@@ -9,10 +9,10 @@ const books = [
     filePath: "Whispers-of-the-Heart.pdf",
   },
   {
-    title: "Ancestor's Hammer",
+    title: "Ancestors Hammer",
     author: "Kofi Fosu",
     description: "Fantasy Adventure.",
-    filePath: "ancestor's-hammer.pdf",
+    filePath: "ancestor-hammer.pdf",
   },
   {
     title: "To Kill a Mockingbird",
