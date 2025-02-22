@@ -26,6 +26,24 @@ const books = [
     description: " A Sci-Fi Adventure Thrilling Series.",
     filePath: "heaven-bound.pdf",
   },
+  {
+    title: "Heaven bound (book 2)",
+    author: "Kofi Fosu",
+    description: " A Sci-Fi Adventure Thrilling Series.",
+    filePath: "heaven-bound2.pdf",
+  },
+  {
+    title: "Twin tips",
+    author: "Kofi Fosu",
+    description: " A Sci-Fi Adventure Thrilling Series.",
+    filePath: "h1.pdf",
+  },
+
+
+
+
+
+  
 ];
 
 const introPage = document.getElementById("intro-page");
