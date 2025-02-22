@@ -38,6 +38,19 @@ const books = [
     description: " A Sci-Fi Adventure Thrilling Series.",
     filePath: "The-Last-echo.pdf",
   },
+  {
+    title: "The-Last-echo (book1)",
+    author: "booms",
+    description: "Magic.",
+    filePath: "The-Last-echo.pdf",
+  },
+{
+    title: "The-Last-echo (book1)",
+    author: "booms",
+    description: " Article.",
+    filePath: "The-Last-echo.pdf",
+  },
+
 
 
 
