@@ -3,10 +3,10 @@
 
 const books = [
   {
-    title: " Gatsby",
-    author: "F",
-    description: "A classic novel about the American Dream.",
-    filePath: "books/great-gatsby.pdf",
+    title: "Whispers of the heart",
+    author: "Kofi Fosu",
+    description: "A classic romance full of passion.",
+    filePath: "Whispers-of-the-Heart.pdf",
   },
   {
     title: "19",
