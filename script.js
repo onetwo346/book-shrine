@@ -39,16 +39,16 @@ const books = [
     filePath: "The-Last-echo.pdf",
   },
   {
-    title: "norm",
-    author: "booms",
-    description: "Magic.",
-    filePath: "The-Last-echoo.pdf",
+    title: "The Void Wanderer",
+    author: "Cosmos Coderr",
+    description: "Science Fiction/Fantasy.",
+    filePath: "The-Void-Wanderer.pdf",
   },
 {
-    title: "fire",
-    author: "booms",
-    description: " Article.",
-    filePath: "The-Last-echoo.pdf",
+    title: "The silent Achitect",
+    author: "Cosmos Coderr",
+    description: "Science Fiction/Mystery.",
+    filePath: "The-silent-Achitect.pdf",
   },
 
 
