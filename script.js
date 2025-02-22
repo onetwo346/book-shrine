@@ -3,21 +3,21 @@
 
 const books = [
   {
-    title: "The Great Gatsby",
-    author: "F. Scott Fitzgerald",
+    title: " Gatsby",
+    author: "F",
     description: "A classic novel about the American Dream.",
     filePath: "books/great-gatsby.pdf",
   },
   {
-    title: "1984",
-    author: "George Orwell",
+    title: "19",
+    author: "well",
     description: "A dystopian novel about totalitarianism.",
     filePath: "books/1984.pdf",
   },
   {
     title: "To Kill a Mockingbird",
-    author: "Harper Lee",
-    description: "A story of racial injustice in the American South.",
+    author: "booms ",
+    description: "injustice.",
     filePath: "books/to-kill-a-mockingbird.pdf",
   },
   {
