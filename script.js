@@ -15,10 +15,10 @@ const books = [
     filePath: "ancestor-hammer.pdf",
   },
   {
-    title: "To Kill a Mockingbird",
-    author: "booms ",
-    description: "injustice.",
-    filePath: "books/to-kill-a-mockingbird.pdf",
+    title: "Deeper than Ocean",
+    author: "Kofi Fosu",
+    description: "Romance.",
+    filePath: "Deeper-than-Ocean.pdf",
   },
   {
     title: "Heaven bound (book 1)",
