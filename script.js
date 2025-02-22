@@ -21,10 +21,10 @@ const books = [
     filePath: "books/to-kill-a-mockingbird.pdf",
   },
   {
-    title: "To Kill a mifbird",
-    author: "Harper Lee",
-    description: "A story of racial injustice in the American South.",
-    filePath: "books/to-kill-a-mockingbird.pdf",
+    title: "Heaven bound",
+    author: "Kofi Fosu",
+    description: " A Sci-Fi Adventure Thrilling Series.",
+    filePath: "books/heaven-bound.pdf",
   },
 ];
 
