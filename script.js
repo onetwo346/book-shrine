@@ -39,16 +39,16 @@ const books = [
     filePath: "The-Last-echo.pdf",
   },
   {
-    title: "The-Last-echo (book1)",
+    title: "norm",
     author: "booms",
     description: "Magic.",
-    filePath: "The-Last-echo.pdf",
+    filePath: "The-Last-echoo.pdf",
   },
 {
-    title: "The-Last-echo (book1)",
+    title: "fire",
     author: "booms",
     description: " Article.",
-    filePath: "The-Last-echo.pdf",
+    filePath: "The-Last-echoo.pdf",
   },
 
 
