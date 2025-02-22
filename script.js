@@ -24,7 +24,7 @@ const books = [
     title: "Heaven bound",
     author: "Kofi Fosu",
     description: " A Sci-Fi Adventure Thrilling Series.",
-    filePath: "books/heaven-bound.pdf",
+    filePath: "heaven-bound.pdf",
   },
 ];
 
