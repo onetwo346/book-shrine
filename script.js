@@ -21,7 +21,7 @@ const books = [
     filePath: "books/to-kill-a-mockingbird.pdf",
   },
   {
-    title: "Heaven bound",
+    title: "Heaven bound (book 1)",
     author: "Kofi Fosu",
     description: " A Sci-Fi Adventure Thrilling Series.",
     filePath: "heaven-bound.pdf",
