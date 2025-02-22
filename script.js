@@ -33,10 +33,10 @@ const books = [
     filePath: "heaven-bound2.pdf",
   },
   {
-    title: "Twin tips",
+    title: "The-Last-echo (book1)",
     author: "Kofi Fosu",
     description: " A Sci-Fi Adventure Thrilling Series.",
-    filePath: "h1.pdf",
+    filePath: "The-Last-echo.pdf",
   },
 
 
