@@ -50,6 +50,12 @@ const books = [
     description: "Science Fiction/Mystery.",
     filePath: "The-silent-Achitect.pdf",
   },
+  {
+    title: "The Algorithm Of Souls (book1)",
+    author: "Kofi Fosu",
+    description: " A Sci-Fi Adventure Thrilling Series.",
+    filePath: "The-Algorithm-Of-Souls.pdf",
+  },
 
 
 
