@@ -51,6 +51,12 @@ const books = [
     filePath: "The-silent-Achitect.pdf",
   },
 
+  { 
+    title: "The Algorithm Of Souls",
+    author: "Cosmos Coderr",
+    description: "Science Fiction/Mystery.",
+    filePath: "The-Algorithm-Of-Souls.pdf",
+
 
 
 
