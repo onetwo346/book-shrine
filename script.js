@@ -29,7 +29,13 @@ const books = [
     preferences: {
       theme: 'cosmic',
       autoSave: true,
-      notifications: true
+      notifications: true,
+      fontSize: 16,
+      particles: true,
+      progressBar: true,
+      animations: true,
+      soundEffects: true,
+      backgroundMusic: false
     }
   };
 
@@ -134,6 +140,7 @@ const books = [
           <button class="bookmark-btn" data-title="${book.title}">🔖</button>
           <button class="share-btn" data-title="${book.title}">📤</button>
         </div>
+        <div class="tap-hint">Tap anywhere to preview</div>
       </div>
     `).join("");
 
@@ -162,7 +169,8 @@ const books = [
       });
     });
 
-    // Enhanced 3D hover effects
+
+    // Enhanced 3D hover effects and click to preview
     const bookItems = document.querySelectorAll(".book-item");
     bookItems.forEach(item => {
       item.addEventListener("mousemove", (e) => {
@@ -176,9 +184,114 @@ const books = [
       item.addEventListener("mouseleave", () => {
         item.style.transform = "perspective(800px) rotateX(0deg) rotateY(0deg) scale(1)";
       });
+      
+      // Add click event to show preview popup when book item is tapped/clicked
+      item.addEventListener("click", (e) => {
+        // Prevent triggering if clicking on buttons
+        if (e.target.tagName === 'BUTTON' || e.target.closest('button')) {
+          return;
+        }
+        
+        const bookTitle = item.querySelector('h2').textContent;
+        openBookPreview(bookTitle);
+      });
+      
+      // Add cursor pointer to indicate clickability
+      item.style.cursor = 'pointer';
     });
   }
   
+  // Book Preview Popup
+  function openBookPreview(bookTitle) {
+    const book = books.find(b => b.title === bookTitle);
+    if (!book) return;
+
+    const overlay = document.createElement("div");
+    overlay.className = "preview-overlay";
+    const popup = document.createElement("div");
+    popup.className = "preview-popup";
+
+    // Get first 500 characters of content for preview
+    const previewContent = book.content ? book.content.substring(0, 500) + "..." : "Preview content not available.";
+
+    popup.innerHTML = `
+      <div class="preview-header">
+        <h2>${book.title}</h2>
+        <button class="close-preview">×</button>
+      </div>
+      <div class="preview-content">
+        <div class="preview-book-info">
+          <div class="preview-author">By ${book.author}</div>
+          <div class="preview-rating">⭐ ${book.rating}/5</div>
+          <div class="preview-genre">${book.genre}</div>
+          <div class="preview-readers">👥 ${book.readCount.toLocaleString()} readers</div>
+        </div>
+        <div class="preview-description">
+          <h3>Description</h3>
+          <p>${book.description}</p>
+        </div>
+        <div class="preview-sample">
+          <h3>Preview</h3>
+          <div class="preview-text">${previewContent}</div>
+        </div>
+      </div>
+      <div class="preview-actions">
+        <button class="preview-read-btn" data-file="${book.filePath}" data-title="${book.title}">Read Full Book</button>
+        <button class="preview-bookmark-btn" data-title="${book.title}">🔖 Bookmark</button>
+        <button class="preview-share-btn" data-title="${book.title}">📤 Share</button>
+      </div>
+    `;
+
+    overlay.appendChild(popup);
+    document.body.appendChild(overlay);
+
+    // Add animation
+    setTimeout(() => popup.classList.add("active"), 10);
+
+    // Event listeners for preview popup
+    const closeBtn = popup.querySelector(".close-preview");
+    const readBtn = popup.querySelector(".preview-read-btn");
+    const bookmarkBtn = popup.querySelector(".preview-bookmark-btn");
+    const shareBtn = popup.querySelector(".preview-share-btn");
+
+    closeBtn.addEventListener("click", () => {
+      closePreviewPopup(overlay);
+    });
+
+    readBtn.addEventListener("click", () => {
+      closePreviewPopup(overlay);
+      // Find the book item and open the full reading popup
+      const bookItem = document.querySelector(`[data-title="${book.title}"]`).closest('.book-item');
+      openBookPopup(book.filePath, bookItem);
+    });
+
+    bookmarkBtn.addEventListener("click", () => {
+      toggleBookmark(bookTitle);
+      bookmarkBtn.style.color = userData.bookmarks.includes(bookTitle) ? "#ff00ff" : "#666";
+    });
+
+    shareBtn.addEventListener("click", () => {
+      shareBook(bookTitle);
+    });
+
+    // Close on overlay click
+    overlay.addEventListener("click", (e) => {
+      if (e.target === overlay) {
+        closePreviewPopup(overlay);
+      }
+    });
+  }
+
+  function closePreviewPopup(overlay) {
+    const popup = overlay.querySelector(".preview-popup");
+    popup.classList.remove("active");
+    setTimeout(() => {
+      if (document.body.contains(overlay)) {
+        document.body.removeChild(overlay);
+      }
+    }, 300);
+  }
+
   // Enhanced Book Popup with PDF Reading
   function openBookPopup(filePath, bookItem) {
     const bookTitle = bookItem.querySelector('h2').textContent;
@@ -1119,97 +1232,307 @@ const books = [
   // Header Controls Event Listeners
   document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
   document.getElementById('settings-btn').addEventListener('click', openSettings);
-  document.getElementById('user-profile').addEventListener('click', openUserProfile);
 
-  // Theme Toggle
+  // Enhanced Theme Toggle with Multiple Themes
   function toggleTheme() {
-    const currentTheme = userData.preferences.theme;
-    const newTheme = currentTheme === 'cosmic' ? 'dark' : 'cosmic';
+    const themes = ['cosmic', 'dark', 'neon', 'minimal', 'classic'];
+    const currentIndex = themes.indexOf(userData.preferences.theme);
+    const nextIndex = (currentIndex + 1) % themes.length;
+    const newTheme = themes[nextIndex];
+    
     userData.preferences.theme = newTheme;
     saveUserData();
     applyTheme(newTheme);
+    showNotification(`Theme changed to ${newTheme.charAt(0).toUpperCase() + newTheme.slice(1)}! 🎨`);
   }
 
   function applyTheme(theme) {
-    document.body.className = theme;
+    // Remove all theme classes
+    document.body.className = '';
+    document.body.classList.add(theme);
+    
     const themeButton = document.getElementById('theme-toggle');
-    themeButton.textContent = theme === 'cosmic' ? '🌙' : '☀️';
+    const themeIcons = {
+      'cosmic': '🌌',
+      'dark': '🌙',
+      'neon': '⚡',
+      'minimal': '⚪',
+      'classic': '📚'
+    };
+    
+    themeButton.textContent = themeIcons[theme] || '🌙';
+    themeButton.title = `Current: ${theme.charAt(0).toUpperCase() + theme.slice(1)} Theme`;
   }
 
-  // Settings Modal
+  // Enhanced Settings Modal with Better UI
   function openSettings() {
     const modal = document.createElement('div');
     modal.className = 'modal-overlay';
     modal.innerHTML = `
-      <div class="modal-content">
-        <h2>Settings</h2>
-        <div class="setting-item">
-          <label>Auto-save reading progress</label>
-          <input type="checkbox" id="auto-save" ${userData.preferences.autoSave ? 'checked' : ''}>
+      <div class="modal-content settings-modal">
+        <div class="settings-header">
+          <h2>⚙️ Cosmic Settings</h2>
+          <p>Customize your Book Shrine experience</p>
         </div>
-        <div class="setting-item">
-          <label>Enable notifications</label>
-          <input type="checkbox" id="notifications" ${userData.preferences.notifications ? 'checked' : ''}>
+        
+        <div class="settings-sections">
+          <div class="settings-section">
+            <h3>🎨 Visual Preferences</h3>
+            <div class="setting-item">
+              <div class="setting-info">
+                <label>Particle Effects</label>
+                <span class="setting-description">Cosmic floating particles in the background</span>
+              </div>
+              <div class="setting-control">
+                <label class="toggle-switch">
+                  <input type="checkbox" id="particles" checked>
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+            </div>
+            
+            <div class="setting-item">
+              <div class="setting-info">
+                <label>Reading Progress Bar</label>
+                <span class="setting-description">Show progress bar at top while reading</span>
+              </div>
+              <div class="setting-control">
+                <label class="toggle-switch">
+                  <input type="checkbox" id="progress-bar" checked>
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+            </div>
+            
+            <div class="setting-item">
+              <div class="setting-info">
+                <label>Book Animations</label>
+                <span class="setting-description">3D hover effects and transitions</span>
+              </div>
+              <div class="setting-control">
+                <label class="toggle-switch">
+                  <input type="checkbox" id="animations" checked>
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+            </div>
+          </div>
+          
+          <div class="settings-section">
+            <h3>📚 Reading Experience</h3>
+            <div class="setting-item">
+              <div class="setting-info">
+                <label>Auto-save Progress</label>
+                <span class="setting-description">Automatically save your reading progress</span>
+              </div>
+              <div class="setting-control">
+                <label class="toggle-switch">
+                  <input type="checkbox" id="auto-save" ${userData.preferences.autoSave ? 'checked' : ''}>
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+            </div>
+            
+            <div class="setting-item">
+              <div class="setting-info">
+                <label>Reading Notifications</label>
+                <span class="setting-description">Get notified about reading milestones</span>
+              </div>
+              <div class="setting-control">
+                <label class="toggle-switch">
+                  <input type="checkbox" id="notifications" ${userData.preferences.notifications ? 'checked' : ''}>
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+            </div>
+            
+            <div class="setting-item">
+              <div class="setting-info">
+                <label>Default Font Size</label>
+                <span class="setting-description">Choose your preferred reading font size</span>
+              </div>
+              <div class="setting-control">
+                <select id="font-size" class="cosmic-select">
+                  <option value="14">Small (14px)</option>
+                  <option value="16" selected>Medium (16px)</option>
+                  <option value="18">Large (18px)</option>
+                  <option value="20">Extra Large (20px)</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          
+          <div class="settings-section">
+            <h3>🔊 Audio & Effects</h3>
+            <div class="setting-item">
+              <div class="setting-info">
+                <label>Sound Effects</label>
+                <span class="setting-description">Play sounds for interactions</span>
+              </div>
+              <div class="setting-control">
+                <label class="toggle-switch">
+                  <input type="checkbox" id="sound-effects" checked>
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+            </div>
+            
+            <div class="setting-item">
+              <div class="setting-info">
+                <label>Background Music</label>
+                <span class="setting-description">Ambient cosmic background music</span>
+              </div>
+              <div class="setting-control">
+                <label class="toggle-switch">
+                  <input type="checkbox" id="background-music">
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="setting-item">
-          <label>Particle effects</label>
-          <input type="checkbox" id="particles" checked>
+        
+        <div class="settings-footer">
+          <button class="cosmic-button secondary" onclick="resetSettings()">Reset to Default</button>
+          <button class="cosmic-button primary" onclick="saveSettings()">Save Settings</button>
         </div>
-        <button class="cosmic-button" onclick="closeModal()">Save Settings</button>
       </div>
     `;
     document.body.appendChild(modal);
     
-    // Add event listeners for settings
+    // Add event listeners for all settings
+    setupSettingsListeners();
+  }
+
+  // Settings Helper Functions
+  function setupSettingsListeners() {
+    // Auto-save setting
     document.getElementById('auto-save').addEventListener('change', (e) => {
       userData.preferences.autoSave = e.target.checked;
       saveUserData();
     });
     
+    // Notifications setting
     document.getElementById('notifications').addEventListener('change', (e) => {
       userData.preferences.notifications = e.target.checked;
       saveUserData();
     });
+    
+    // Font size setting
+    document.getElementById('font-size').addEventListener('change', (e) => {
+      userData.preferences.fontSize = parseInt(e.target.value);
+      saveUserData();
+      applyFontSize(userData.preferences.fontSize);
+    });
+    
+    // Particle effects
+    document.getElementById('particles').addEventListener('change', (e) => {
+      userData.preferences.particles = e.target.checked;
+      saveUserData();
+      toggleParticles(e.target.checked);
+    });
+    
+    // Progress bar
+    document.getElementById('progress-bar').addEventListener('change', (e) => {
+      userData.preferences.progressBar = e.target.checked;
+      saveUserData();
+      toggleProgressBar(e.target.checked);
+    });
+    
+    // Animations
+    document.getElementById('animations').addEventListener('change', (e) => {
+      userData.preferences.animations = e.target.checked;
+      saveUserData();
+      toggleAnimations(e.target.checked);
+    });
+    
+    // Sound effects
+    document.getElementById('sound-effects').addEventListener('change', (e) => {
+      userData.preferences.soundEffects = e.target.checked;
+      saveUserData();
+    });
+    
+    // Background music
+    document.getElementById('background-music').addEventListener('change', (e) => {
+      userData.preferences.backgroundMusic = e.target.checked;
+      saveUserData();
+      toggleBackgroundMusic(e.target.checked);
+    });
   }
-
-  // User Profile Modal
-  function openUserProfile() {
-    const modal = document.createElement('div');
-    modal.className = 'modal-overlay';
-    modal.innerHTML = `
-      <div class="modal-content">
-        <h2>Reading Profile</h2>
-        <div class="profile-stats">
-          <div class="stat-item">
-            <span class="stat-label">Books Read:</span>
-            <span class="stat-value">${userData.readingStats.totalBooksRead}</span>
-          </div>
-          <div class="stat-item">
-            <span class="stat-label">Reading Time:</span>
-            <span class="stat-value">${Math.round(userData.readingStats.totalReadingTime / 60000)} min</span>
-          </div>
-          <div class="stat-item">
-            <span class="stat-label">Current Streak:</span>
-            <span class="stat-value">${userData.readingStats.currentStreak} days</span>
-          </div>
-          <div class="stat-item">
-            <span class="stat-label">Bookmarks:</span>
-            <span class="stat-value">${userData.bookmarks.length}</span>
-          </div>
-        </div>
-        <div class="recent-books">
-          <h3>Recent Reading</h3>
-          ${userData.readingHistory.slice(-5).map(session => `
-            <div class="recent-session">
-              <span>${session.bookTitle}</span>
-              <span>${new Date(session.startTime).toLocaleDateString()}</span>
-            </div>
-          `).join('')}
-        </div>
-        <button class="cosmic-button" onclick="closeModal()">Close</button>
-      </div>
-    `;
-    document.body.appendChild(modal);
+  
+  function saveSettings() {
+    saveUserData();
+    showNotification('Settings saved! ⚙️✨');
+    closeModal();
+  }
+  
+  function resetSettings() {
+    userData.preferences = {
+      theme: 'cosmic',
+      autoSave: true,
+      notifications: true,
+      fontSize: 16,
+      particles: true,
+      progressBar: true,
+      animations: true,
+      soundEffects: true,
+      backgroundMusic: false
+    };
+    saveUserData();
+    applyAllSettings();
+    showNotification('Settings reset to default! 🔄');
+    closeModal();
+  }
+  
+  function applyAllSettings() {
+    applyTheme(userData.preferences.theme);
+    applyFontSize(userData.preferences.fontSize);
+    toggleParticles(userData.preferences.particles);
+    toggleProgressBar(userData.preferences.progressBar);
+    toggleAnimations(userData.preferences.animations);
+    toggleBackgroundMusic(userData.preferences.backgroundMusic);
+  }
+  
+  function applyFontSize(size) {
+    document.documentElement.style.setProperty('--base-font-size', size + 'px');
+    document.querySelectorAll('.book-text').forEach(text => {
+      text.style.fontSize = size + 'px';
+    });
+  }
+  
+  function toggleParticles(enabled) {
+    const container = document.getElementById('particle-container');
+    if (enabled) {
+      container.style.display = 'block';
+      if (container.children.length === 0) {
+        createParticles();
+      }
+    } else {
+      container.style.display = 'none';
+    }
+  }
+  
+  function toggleProgressBar(enabled) {
+    const progressBar = document.getElementById('reading-progress');
+    if (progressBar) {
+      progressBar.style.display = enabled ? 'block' : 'none';
+    }
+  }
+  
+  function toggleAnimations(enabled) {
+    document.body.style.setProperty('--animation-duration', enabled ? '0.3s' : '0s');
+    document.body.style.setProperty('--transition-duration', enabled ? '0.3s' : '0s');
+  }
+  
+  function toggleBackgroundMusic(enabled) {
+    if (enabled) {
+      universeSound.loop = true;
+      universeSound.volume = 0.3;
+      universeSound.play().catch(e => console.log('Audio play failed:', e));
+    } else {
+      universeSound.pause();
+      universeSound.currentTime = 0;
+    }
   }
 
   function closeModal() {
@@ -1383,7 +1706,7 @@ const books = [
   createParticles();
   displayBooks(books);
   updateBookmarkButtons();
-  applyTheme(userData.preferences.theme);
+  applyAllSettings();
   
   // Add loading animation
   setTimeout(() => {
